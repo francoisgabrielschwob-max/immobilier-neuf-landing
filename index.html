@@ -736,6 +736,16 @@
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
         
+        // Vérifier si on vient d'un clic sur "Accueil"
+        if (sessionStorage.getItem('scrollToTop') === 'true') {
+            sessionStorage.removeItem('scrollToTop');
+            // Force agressivement le scroll en haut
+            setTimeout(function() { window.scrollTo(0, 0); }, 0);
+            setTimeout(function() { window.scrollTo(0, 0); }, 50);
+            setTimeout(function() { window.scrollTo(0, 0); }, 100);
+            setTimeout(function() { window.scrollTo(0, 0); }, 200);
+        }
+        
         // Bloquer TOUT scroll automatique pendant le chargement
         let preventScroll = true;
         
