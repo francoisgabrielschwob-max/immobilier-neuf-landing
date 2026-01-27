@@ -728,5 +728,27 @@
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
+    
+    <!-- Force scroll to top on page load (évite le scroll automatique vers les ancres) -->
+    <script>
+        // Si l'URL contient une ancre (#expertise, #territoire, etc.), on la supprime
+        if (window.location.hash && window.location.pathname.includes('index.html')) {
+            // Supprimer l'ancre de l'URL sans recharger la page
+            history.replaceState(null, null, window.location.pathname);
+        }
+        
+        // Force le scroll en haut de page au chargement
+        window.addEventListener('load', function() {
+            // Attendre un peu pour que les animations se chargent
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 100);
+        });
+        
+        // Si on arrive via un lien "Accueil", forcer le scroll en haut
+        if (document.referrer && document.referrer.includes(window.location.hostname)) {
+            window.scrollTo(0, 0);
+        }
+    </script>
 </body>
 </html>
