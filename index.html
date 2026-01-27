@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sélection Privée Immobilier Neuf d'Excellence Occitanie | FG STRATEGIES</title>
+    <meta name="description" content="Accédez à notre sélection confidentielle de biens neufs haut de gamme en Occitanie. Accompagnement exclusif pour acquéreurs engagés.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bleu-nuit: #1a3a52;
+            --dore-champagne: #d8c7aa;
+            --vert-sauge: #9caf88;
+            --blanc-casse: #f8f6f3;
+            --gris-pierre: #5a5a5a;
+        }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .nav {
+            background: var(--bleu-nuit);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .nav-btn {
+            background: var(--dore-champagne);
+            color: var(--bleu-nuit);
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .hero {
+            background: var(--blanc-casse);
+            padding: 4rem 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--dore-champagne);
+            color: var(--bleu-nuit);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: var(--bleu-nuit);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 1.05rem;
+            color: var(--gris-pierre);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+        
+        .bullets {
+            margin-bottom: 2rem;
+        }
+        
+        .bullet {
+            display: flex;
+            align-items: start;
+            margin-bottom: 1rem;
+            color: #2a2a2a;
+        }
+        
+        .bullet i {
+            color: var(--vert-sauge);
+            margin-right: 1rem;
+            margin-top: 0.3rem;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: var(--dore-champagne);
+            color: var(--bleu-nuit);
+            padding: 1rem 1.75rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--bleu-nuit);
+            color: var(--bleu-nuit);
+            padding: 1rem 1.75rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bleu-nuit);
+            color: white;
+        }
+        
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .form-header h3 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--bleu-nuit);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: var(--gris-pierre);
+            font-size: 0.9rem;
+        }
+        
+        .form-iframe {
+            width: 100%;
+            height: 650px;
+            border: none;
+            border-radius: 8px;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--gris-pierre);
+        }
+        
+        .why {
+            background: white;
+            padding: 4rem 2rem;
+        }
+        
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            text-align: center;
+            font-size: 2.3rem;
+            color: var(--bleu-nuit);
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+        
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .why-item {
+            text-align: center;
+        }
+        
+        .why-icon {
+            font-size: 3rem;
+            color: var(--dore-champagne);
+            margin-bottom: 1rem;
+        }
+        
+        .why-item h3 {
+            color: var(--bleu-nuit);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .why-item p {
+            color: var(--gris-pierre);
+            line-height: 1.6;
+        }
+        
+        .footer {
+            background: var(--bleu-nuit);
+            color: var(--blanc-casse);
+            padding: 3rem 2rem 1.5rem;
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--blanc-casse);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer a:hover {
+            color: var(--dore-champagne);
+        }
+        
+        .social {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .social a {
+            font-size: 1.5rem;
+        }
+        
+        @media (max-width: 968px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .why-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-brand">Immobilier Neuf d'Excellence</div>
+            <a href="https://outlook.office.com/book/FGSTRATEGIESACH@fg-strategies.com/" target="_blank" class="nav-btn">Réserver Mon Créneau</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <div class="badge">Immobilier neuf d'excellence • Occitanie</div>
+                    <h1>Votre sélection privée de biens neufs d'excellence en Occitanie</h1>
+                    <p class="subtitle">Nous accompagnons des acquéreurs engagés, sur des opportunités finement sélectionnées, avec une approche sur mesure, indépendante et patrimoniale.</p>
+                    
+                    <div class="bullets">
+                        <div class="bullet">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Programmes neufs d'excellence rigoureusement sélectionnés</span>
+                        </div>
+                        <div class="bullet">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Résidence principale, secondaire, investissement patrimonial</span>
+                        </div>
+                        <div class="bullet">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Accompagnement global : sélection, financement, structuration</span>
+                        </div>
+                        <div class="bullet">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Interlocuteur unique, suivi de A à Z</span>
+                        </div>
+                    </div>
+                    
+                    <div class="cta-group">
+                        <a href="#formulaire" class="btn-primary">Accéder à notre sélection</a>
+                        <a href="https://outlook.office.com/book/FGSTRATEGIESACH@fg-strategies.com/" target="_blank" class="btn-secondary">Échanger avec un expert</a>
+                    </div>
+                </div>
+                
+                <div id="formulaire">
+                    <div class="form-card">
+                        <div class="form-header">
+                            <h3>Accompagnement exclusif</h3>
+                            <p>Nous revenons vers vous dans les 24h</p>
+                        </div>
+                        <iframe 
+                            class="form-iframe"
+                            src="https://forms.office.com/Pages/ResponsePage.aspx?id=LGTilXow2Em0gRtwpmt_WCzkzs9nK6hMhdh3jFYqgf5UNjI0N0FBMDNMMUlIVk5JNkc2RExWVTJKUy4u" 
+                            frameborder="0" 
+                            allowfullscreen>
+                        </iframe>
+                        <p class="form-footer">Réponse sous 24h • Confidentialité garantie</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why">
+        <div class="container">
+            <h2>Pourquoi FG STRATEGIES ?</h2>
+            <div class="why-grid">
+                <div class="why-item">
+                    <div class="why-icon"><i class="fas fa-search"></i></div>
+                    <h3>Sélection rigoureuse</h3>
+                    <p>Nous analysons chaque programme selon des critères patrimoniaux stricts : emplacement, qualité de construction, potentiel de valorisation.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon"><i class="fas fa-handshake"></i></div>
+                    <h3>Accompagnement global</h3>
+                    <p>De la sélection du bien à la structuration financière, nous vous accompagnons à chaque étape avec un interlocuteur unique.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Indépendance totale</h3>
+                    <p>Aucun lien capitalistique avec les promoteurs. Notre seul objectif : votre intérêt patrimonial à long terme.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon"><i class="fas fa-star"></i></div>
+                    <h3>Expertise reconnue</h3>
+                    <p>15 ans d'expérience en immobilier d'excellence, accès à tout le marché du neuf, note 5/5 sur Google.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p style="margin-bottom: 0.5rem;">
+            <a href="mailto:contact@fg-strategies.com">contact@fg-strategies.com</a>
+        </p>
+        <p style="margin-bottom: 1.5rem; opacity: 0.8;">Montpellier, Occitanie</p>
+        <div class="social">
+            <a href="https://www.linkedin.com/company/fg-strategies/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.facebook.com/fgstrategies/" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/francois.fgstrategies/" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p style="opacity: 0.7; font-size: 0.85rem; margin-top: 1.5rem;">© 2026 FG STRATEGIES. Tous droits réservés.</p>
+    </footer>
+
+</body>
+</html>
