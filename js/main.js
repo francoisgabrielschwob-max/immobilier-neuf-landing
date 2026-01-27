@@ -44,6 +44,41 @@ document.querySelectorAll('.nav-menu a').forEach(link => {
 });
 
 // ====================================
+// FORCER RETOUR EN HAUT POUR LES LIENS "ACCUEIL"
+// ====================================
+
+// Intercepter TOUS les liens vers index.html pour forcer le retour en haut
+document.addEventListener('DOMContentLoaded', function() {
+    // Sélectionner tous les liens vers index.html
+    const homeLinks = document.querySelectorAll('a[href="index.html"], a[href="./index.html"], a[href="/index.html"]');
+    
+    homeLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Si on est déjà sur index.html, juste scroller en haut
+            if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else {
+                // Si on est sur une autre page, on laisse le lien fonctionner normalement
+                // Mais on ajoute un flag dans sessionStorage pour forcer le scroll en haut
+                sessionStorage.setItem('scrollToTop', 'true');
+            }
+        });
+    });
+    
+    // Sur index.html, vérifier si on doit scroller en haut
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        if (sessionStorage.getItem('scrollToTop') === 'true') {
+            sessionStorage.removeItem('scrollToTop');
+            window.scrollTo(0, 0);
+        }
+    }
+});
+
+// ====================================
 // SMOOTH SCROLL
 // ====================================
 
