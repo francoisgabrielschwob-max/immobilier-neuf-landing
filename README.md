@@ -9,7 +9,7 @@ Palette BRS fusionnée • SEO 2026 optimisé
 ## 📊 ÉTAT DU PROJET
 
 **Dernière mise à jour** : 27 janvier 2026  
-**Statut** : ✅ Site complet et prêt à déployer sur GitHub Pages
+**Statut** : ✅ Site en ligne à https://excellence.fg-strategies.fr
 
 ---
 
@@ -93,37 +93,34 @@ Palette BRS fusionnée • SEO 2026 optimisé
 
 ## 🚀 DÉPLOIEMENT GITHUB PAGES
 
-### **Repository actuel :**
-- **URL** : https://github.com/francoisgabrielchwob-max/immobilier-neuf-landing
+### **✅ SITE EN LIGNE ET OPÉRATIONNEL**
+
+- **URL production** : https://excellence.fg-strategies.fr 🎉
+- **URL GitHub** : https://francoisgabrielschwob-max.github.io/immobilier-neuf-landing
+- **Repository** : https://github.com/francoisgabrielschwob-max/immobilier-neuf-landing
 - **Branch** : main
-- **Fichiers déployés** : index.html (pour test initial)
+- **Statut** : ✅ Déployé et fonctionnel
+- **HTTPS** : ⏳ En cours d'activation (certificat SSL Let's Encrypt en génération)
+- **DNS** : ✅ Configuré et propagé (OVH CNAME)
 
-### **Prochaines étapes :**
-
-#### **Option A : Landing simple (RAPIDE - 2 minutes)**
-1. Activer GitHub Pages (Settings → Pages → Branch: main)
-2. Attendre 30 secondes
-3. URL en ligne : `francoisgabrielchwob-max.github.io/immobilier-neuf-landing`
-
-#### **Option B : Site complet (RECOMMANDÉ - 10 minutes)**
-1. Télécharger tous les fichiers du projet
-2. Les uploader sur GitHub (via interface ou Git)
-3. Activer GitHub Pages
-4. Site complet en ligne avec toutes les pages
-
-#### **Option C : URL personnalisée (ULTRA PRO)**
-1. Renommer le repository en `immobilier-neuf-excellence`
-2. URL devient : `francoisgabrielchwob-max.github.io/immobilier-neuf-excellence`
-3. Ou connecter un domaine personnalisé (ex: `fg-immobilier.com`)
+### **Déploiement réalisé (27 janvier 2026) :**
+1. ✅ Site complet uploadé (11 pages HTML + CSS + JS + images)
+2. ✅ GitHub Pages activé
+3. ✅ Domaine personnalisé configuré : `excellence.fg-strategies.fr`
+4. ✅ DNS OVH configuré (CNAME → francoisgabrielschwob-max.github.io)
+5. ⏳ HTTPS en cours d'activation (10-30 minutes)
 
 ---
 
 ## 📧 INTÉGRATION FORMULAIRES
 
-### **Microsoft Forms intégré :**
+### **Microsoft Forms intégré (URL iframe) :**
 - **URL du formulaire** : https://forms.office.com/Pages/ResponsePage.aspx?id=LGTilXow2Em0gRtwpmt_WCzkzs9nK6hMhdh3jFYqgf5UNjI0N0FBMDNMMUlIVk5JNkc2RExWVTJKUy4u
-- **Intégré dans** : `landing-neuf-excellence.html` et `index.html`
+- **Intégré dans** : 
+  - ✅ `index.html` (page d'accueil) → Section contact
+  - ✅ `landing-neuf-excellence.html` (landing Google Ads) → Formulaire principal
 - **Flux de données** : Forms → Excel (OneDrive) → Power Automate → Notification Outlook
+- **Configuration** : "Tout le monde peut répondre" activé
 
 ### **Calendrier Outlook :**
 - **URL de réservation** : https://outlook.office.com/book/FGSTRATEGIESACH@fg-strategies.com/
@@ -200,14 +197,18 @@ Palette BRS fusionnée • SEO 2026 optimisé
 
 ## 🎓 NOTES IMPORTANTES
 
-### **Corrections appliquées (22-26 janvier 2026) :**
+### **Corrections appliquées (22-27 janvier 2026) :**
 - ✅ Refonte complète de la page Littoral Méditerranéen (7 zones, 80 km)
 - ✅ Correction des stats hero tronquées (margin-bottom, z-index)
 - ✅ Amélioration de la lisibilité du footer (titres blancs, contraste WCAG AA)
 - ✅ Harmonisation des boutons "Retour à l'accueil" (fond bleu nuit + hover doré)
-- ✅ Intégration du formulaire Microsoft Forms dans la landing
+- ✅ Intégration du formulaire Microsoft Forms dans la landing ET index.html
 - ✅ Mise à jour de tous les liens de navigation (12 liens corrigés)
 - ✅ Suppression de 80+ fichiers de documentation obsolètes
+- ✅ **Déploiement GitHub Pages complet** (27 janvier 2026)
+- ✅ **Configuration domaine personnalisé** : excellence.fg-strategies.fr
+- ✅ **Titre navigation cliquable** sur toutes les pages
+- ✅ **URLs mises à jour** : Netlify → excellence.fg-strategies.fr
 
 ### **Décisions clés :**
 - ❌ **SharePoint abandonné** : trop de restrictions sur le HTML/CSS/JS personnalisé
