@@ -1,0 +1,24 @@
+# robots.txt pour Immobilier Neuf Occitanie - FG STRATEGIES
+
+User-agent: *
+Allow: /
+
+# Fichiers à exclure
+Disallow: /css/
+Disallow: /js/
+
+# Sitemap
+Sitemap: https://immobilier-neuf-selection.netlify.app/sitemap.xml
+
+# Crawl-delay (optionnel, ajustez selon vos besoins)
+Crawl-delay: 10
+
+# Règles spécifiques pour les bots majeurs
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: baiduspider
+Disallow: /
