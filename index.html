@@ -731,24 +731,37 @@
     
     <!-- Force scroll to top on page load (évite le scroll automatique vers les ancres) -->
     <script>
-        // Si l'URL contient une ancre (#expertise, #territoire, etc.), on la supprime
-        if (window.location.hash && window.location.pathname.includes('index.html')) {
-            // Supprimer l'ancre de l'URL sans recharger la page
+        // IMMÉDIATEMENT : Force scroll en haut AVANT tout autre script
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        
+        // Bloquer TOUT scroll automatique pendant le chargement
+        let preventScroll = true;
+        
+        // Intercepter toute tentative de scroll
+        window.addEventListener('scroll', function(e) {
+            if (preventScroll) {
+                window.scrollTo(0, 0);
+            }
+        }, { passive: false });
+        
+        // Si l'URL contient une ancre, la supprimer
+        if (window.location.hash) {
             history.replaceState(null, null, window.location.pathname);
         }
         
-        // Force le scroll en haut de page au chargement
+        // Après le chargement complet, autoriser le scroll
         window.addEventListener('load', function() {
-            // Attendre un peu pour que les animations se chargent
             setTimeout(function() {
+                // Force encore une fois en haut
                 window.scrollTo(0, 0);
+                // Autoriser le scroll après 500ms
+                setTimeout(function() {
+                    preventScroll = false;
+                }, 500);
             }, 100);
         });
-        
-        // Si on arrive via un lien "Accueil", forcer le scroll en haut
-        if (document.referrer && document.referrer.includes(window.location.hostname)) {
-            window.scrollTo(0, 0);
-        }
     </script>
 </body>
 </html>
