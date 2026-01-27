@@ -65,6 +65,16 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Bloquer le scroll automatique vers les ancres au chargement de la page
+if (window.location.hash) {
+    // Supprimer l'ancre immédiatement
+    history.replaceState(null, null, window.location.pathname);
+    // Forcer le scroll en haut
+    setTimeout(function() {
+        window.scrollTo(0, 0);
+    }, 0);
+}
+
 // ====================================
 // SCROLL ANIMATIONS
 // ====================================
@@ -107,15 +117,17 @@ elementsToAnimate.forEach(el => {
 const hero = document.querySelector('.hero');
 const heroContent = document.querySelector('.hero-content');
 
-window.addEventListener('scroll', () => {
-    const scrollPosition = window.scrollY;
-    
-    if (scrollPosition < window.innerHeight) {
-        const parallaxSpeed = scrollPosition * 0.5;
-        heroContent.style.transform = `translateY(${parallaxSpeed}px)`;
-        hero.style.opacity = 1 - (scrollPosition / window.innerHeight);
-    }
-});
+if (hero && heroContent) {
+    window.addEventListener('scroll', () => {
+        const scrollPosition = window.scrollY;
+        
+        if (scrollPosition < window.innerHeight) {
+            const parallaxSpeed = scrollPosition * 0.5;
+            heroContent.style.transform = `translateY(${parallaxSpeed}px)`;
+            hero.style.opacity = 1 - (scrollPosition / window.innerHeight);
+        }
+    });
+}
 
 // ====================================
 // SCROLL INDICATOR
