@@ -269,35 +269,28 @@
     <script src="js/main.js"></script>
     <script src="js/landing.js"></script>
 
-    <!-- Tracking Conversion Microsoft Forms - Méthode Iframe Load -->
+    <!-- Tracking Conversion MS Forms - PostMessage Method -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🔍 Tracking Google Ads initialisé - Surveillance iframe active');
+        console.log('🔍 Tracking Google Ads PostMessage initialisé');
         
-        // ID de conversion Google Ads RÉEL
         var CONVERSION_ID = 'AW-16583907507/aRcACInstO4bELOx6eM9';
-        
-        // Sélectionner l'iframe Microsoft Forms
-        var iframe = document.querySelector('iframe[src*="forms.office.com"]') || 
-                     document.querySelector('iframe');
-        
-        var loadCount = 0;
         var conversionEnvoyee = false;
+        var pageLoadTime = Date.now();
 
-        if (iframe) {
-            console.log('✅ Iframe Microsoft Forms détectée');
-            
-            iframe.addEventListener('load', function() {
-                loadCount++;
-                console.log('🔄 Chargement iframe détecté. Count = ' + loadCount);
+        // Écouter les messages de l'iframe Microsoft Forms
+        window.addEventListener('message', function(event) {
+            // Vérifier que le message vient de Microsoft Forms
+            if (event.origin && event.origin.includes('forms.office.com')) {
+                console.log('📩 Message reçu de Microsoft Forms:', event.data);
                 
-                // Premier load = affichage formulaire
-                // Tout load suivant = soumission (message merci)
-                if (loadCount > 1 && !conversionEnvoyee) {
-                    console.log('✅ SOUMISSION DÉTECTÉE : Iframe rechargée (Message Merci)');
+                // Attendre au moins 3 secondes après le chargement pour éviter les faux positifs
+                var timeSinceLoad = Date.now() - pageLoadTime;
+                
+                if (timeSinceLoad > 3000 && !conversionEnvoyee) {
+                    console.log('✅ SOUMISSION DÉTECTÉE via PostMessage !');
                     
                     if (typeof gtag !== 'undefined') {
-                        // Conversion Google Ads
                         gtag('event', 'conversion', {
                             'send_to': CONVERSION_ID,
                             'event_callback': function() {
@@ -305,7 +298,6 @@
                             }
                         });
                         
-                        // Événement lead Analytics
                         gtag('event', 'generate_lead', {
                             'event_category': 'Formulaire',
                             'event_label': 'Lead Immobilier Neuf Excellence',
@@ -315,15 +307,13 @@
                         console.log('🎯 Conversion Google Ads envoyée avec succès !');
                         conversionEnvoyee = true;
                     } else {
-                        console.error('❌ gtag non disponible - Vérifier Global Site Tag');
+                        console.error('❌ gtag non disponible');
                     }
                 }
-            });
-            
-            console.log('👀 Surveillance de l\'iframe Microsoft Forms activée');
-        } else {
-            console.error('❌ Iframe Microsoft Forms non trouvée');
-        }
+            }
+        });
+        
+        console.log('👀 Surveillance PostMessage Microsoft Forms activée');
     });
     </script>
 
