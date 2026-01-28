@@ -269,131 +269,61 @@
     <script src="js/main.js"></script>
     <script src="js/landing.js"></script>
 
-    <!-- Tracking Conversion Microsoft Forms -->
+    <!-- Tracking Conversion Microsoft Forms - Méthode Iframe Load -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🔍 Tracking Google Ads initialisé - Surveillance active');
+        console.log('🔍 Tracking Google Ads initialisé - Surveillance iframe active');
         
-        // ⚠️ ID de conversion Google Ads
+        // ID de conversion Google Ads RÉEL
         var CONVERSION_ID = 'AW-16583907507/aRcACInstO4bELOx6eM9';
         
+        // Sélectionner l'iframe Microsoft Forms
+        var iframe = document.querySelector('iframe[src*="forms.office.com"]') || 
+                     document.querySelector('iframe');
+        
+        var loadCount = 0;
         var conversionEnvoyee = false;
-        var iframe = document.getElementById('msforms-iframe');
-        var hauteurInitiale = null;
-        var compteurVerifications = 0;
-        var maxVerifications = 180; // 3 minutes max (180 x 1 seconde)
-        
-        console.log('👀 Surveillance iframe Microsoft Forms active');
-        
-        // Fonction pour envoyer la conversion
-        function envoyerConversion(raison) {
-            if (conversionEnvoyee) return;
+
+        if (iframe) {
+            console.log('✅ Iframe Microsoft Forms détectée');
             
-            console.log('✅ Soumission formulaire détectée !');
-            console.log('📝 Raison : ' + raison);
-            
-            if (typeof gtag !== 'undefined') {
-                // Envoyer la conversion à Google Ads
-                gtag('event', 'conversion', {
-                    'send_to': CONVERSION_ID,
-                    'event_callback': function() {
-                        console.log('✅ Conversion confirmée par Google Ads');
-                    }
-                });
+            iframe.addEventListener('load', function() {
+                loadCount++;
+                console.log('🔄 Chargement iframe détecté. Count = ' + loadCount);
                 
-                // Événement lead pour Analytics
-                gtag('event', 'generate_lead', {
-                    'event_category': 'Formulaire',
-                    'event_label': 'Lead Immobilier Neuf Excellence',
-                    'value': 1
-                });
-                
-                console.log('🎯 Conversion Google Ads envoyée avec succès !');
-                conversionEnvoyee = true;
-                
-            } else {
-                console.error('❌ gtag non disponible - Vérifier le Global Site Tag');
-            }
-        }
-        
-        // Méthode 1 : Surveiller les changements de hauteur de l'iframe
-        function surveillerHauteur() {
-            compteurVerifications++;
-            
-            if (conversionEnvoyee || compteurVerifications > maxVerifications) {
-                return;
-            }
-            
-            if (iframe && iframe.contentWindow) {
-                try {
-                    var hauteurActuelle = iframe.clientHeight;
+                // Premier load = affichage formulaire
+                // Tout load suivant = soumission (message merci)
+                if (loadCount > 1 && !conversionEnvoyee) {
+                    console.log('✅ SOUMISSION DÉTECTÉE : Iframe rechargée (Message Merci)');
                     
-                    if (hauteurInitiale === null) {
-                        hauteurInitiale = hauteurActuelle;
-                    } else if (Math.abs(hauteurActuelle - hauteurInitiale) > 50) {
-                        // Changement significatif de hauteur détecté
-                        envoyerConversion('Changement de hauteur iframe détecté');
-                        return;
+                    if (typeof gtag !== 'undefined') {
+                        // Conversion Google Ads
+                        gtag('event', 'conversion', {
+                            'send_to': CONVERSION_ID,
+                            'event_callback': function() {
+                                console.log('✅ Conversion confirmée par Google Ads');
+                            }
+                        });
+                        
+                        // Événement lead Analytics
+                        gtag('event', 'generate_lead', {
+                            'event_category': 'Formulaire',
+                            'event_label': 'Lead Immobilier Neuf Excellence',
+                            'value': 1
+                        });
+                        
+                        console.log('🎯 Conversion Google Ads envoyée avec succès !');
+                        conversionEnvoyee = true;
+                    } else {
+                        console.error('❌ gtag non disponible - Vérifier Global Site Tag');
                     }
-                } catch(e) {
-                    // Iframe cross-origin, on ne peut pas accéder
                 }
-            }
+            });
             
-            // Continuer la surveillance
-            setTimeout(surveillerHauteur, 1000);
+            console.log('👀 Surveillance de l\'iframe Microsoft Forms activée');
+        } else {
+            console.error('❌ Iframe Microsoft Forms non trouvée');
         }
-        
-        // Méthode 2 : Surveiller les messages postMessage de l'iframe
-        window.addEventListener('message', function(event) {
-            if (conversionEnvoyee) return;
-            
-            // Microsoft Forms envoie parfois des messages
-            if (event.origin.includes('forms.office.com')) {
-                console.log('📨 Message reçu de Microsoft Forms');
-                
-                // Déclencher la conversion après 2 secondes (pour laisser le temps au message de s'afficher)
-                setTimeout(function() {
-                    if (!conversionEnvoyee) {
-                        envoyerConversion('Message postMessage de Microsoft Forms');
-                    }
-                }, 2000);
-            }
-        });
-        
-        // Méthode 3 : Surveiller le DOM de la page principale (au cas où le message sortirait de l'iframe)
-        var observer = new MutationObserver(function(mutations) {
-            if (conversionEnvoyee) {
-                observer.disconnect();
-                return;
-            }
-            
-            // Vérifier si un message de confirmation apparaît dans la page
-            var elementsConfirmation = document.querySelectorAll('[class*="confirm"], [class*="success"], [class*="thank"]');
-            if (elementsConfirmation.length > 0) {
-                elementsConfirmation.forEach(function(el) {
-                    var texte = (el.textContent || '').toLowerCase();
-                    if (texte.includes('merci') || texte.includes('reçu') || texte.includes('enregistré')) {
-                        envoyerConversion('Message de confirmation dans la page principale');
-                    }
-                });
-            }
-        });
-        
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-        
-        // Démarrer la surveillance de hauteur après 2 secondes (laisser le temps à l'iframe de charger)
-        setTimeout(function() {
-            surveillerHauteur();
-        }, 2000);
-        
-        console.log('✅ 3 méthodes de détection activées :');
-        console.log('   1️⃣ Surveillance hauteur iframe');
-        console.log('   2️⃣ Écoute messages postMessage');
-        console.log('   3️⃣ Observation DOM page principale');
     });
     </script>
 
