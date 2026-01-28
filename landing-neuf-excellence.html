@@ -269,51 +269,117 @@
     <script src="js/main.js"></script>
     <script src="js/landing.js"></script>
 
-    <!-- Tracking Conversion MS Forms - PostMessage Method -->
+    <!-- Tracking Conversion MS Forms - Méthode Hybride -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🔍 Tracking Google Ads PostMessage initialisé');
+        console.log('🔍 Tracking Google Ads HYBRIDE initialisé');
         
         var CONVERSION_ID = 'AW-16583907507/aRcACInstO4bELOx6eM9';
         var conversionEnvoyee = false;
         var pageLoadTime = Date.now();
-
-        // Écouter les messages de l'iframe Microsoft Forms
+        var detectionTentatives = 0;
+        var maxTentatives = 60; // 60 secondes max
+        
+        function envoyerConversion(methode) {
+            if (conversionEnvoyee) return;
+            
+            console.log('✅ SOUMISSION DÉTECTÉE via ' + methode + ' !');
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'conversion', {
+                    'send_to': CONVERSION_ID,
+                    'event_callback': function() {
+                        console.log('✅ Conversion confirmée par Google Ads');
+                    }
+                });
+                
+                gtag('event', 'generate_lead', {
+                    'event_category': 'Formulaire',
+                    'event_label': 'Lead Immobilier Neuf Excellence - ' + methode,
+                    'value': 1
+                });
+                
+                console.log('🎯 Conversion Google Ads envoyée avec succès !');
+                conversionEnvoyee = true;
+            } else {
+                console.error('❌ gtag non disponible');
+            }
+        }
+        
+        // MÉTHODE 1 : PostMessage
         window.addEventListener('message', function(event) {
-            // Vérifier que le message vient de Microsoft Forms
             if (event.origin && event.origin.includes('forms.office.com')) {
                 console.log('📩 Message reçu de Microsoft Forms:', event.data);
-                
-                // Attendre au moins 3 secondes après le chargement pour éviter les faux positifs
                 var timeSinceLoad = Date.now() - pageLoadTime;
-                
                 if (timeSinceLoad > 3000 && !conversionEnvoyee) {
-                    console.log('✅ SOUMISSION DÉTECTÉE via PostMessage !');
-                    
-                    if (typeof gtag !== 'undefined') {
-                        gtag('event', 'conversion', {
-                            'send_to': CONVERSION_ID,
-                            'event_callback': function() {
-                                console.log('✅ Conversion confirmée par Google Ads');
-                            }
-                        });
-                        
-                        gtag('event', 'generate_lead', {
-                            'event_category': 'Formulaire',
-                            'event_label': 'Lead Immobilier Neuf Excellence',
-                            'value': 1
-                        });
-                        
-                        console.log('🎯 Conversion Google Ads envoyée avec succès !');
-                        conversionEnvoyee = true;
-                    } else {
-                        console.error('❌ gtag non disponible');
+                    envoyerConversion('PostMessage');
+                }
+            }
+        });
+        
+        // MÉTHODE 2 : Détection du message de succès visible dans la page
+        var observer = new MutationObserver(function(mutations) {
+            if (conversionEnvoyee) {
+                observer.disconnect();
+                return;
+            }
+            
+            var texteVisible = document.body.innerText.toLowerCase();
+            var motsCles = ['reçue avec succès', 'merci', 'votre demande', 'été enregistrée'];
+            
+            for (var i = 0; i < motsCles.length; i++) {
+                if (texteVisible.includes(motsCles[i])) {
+                    var timeSinceLoad = Date.now() - pageLoadTime;
+                    if (timeSinceLoad > 3000) {
+                        console.log('📝 Message de confirmation trouvé : "' + motsCles[i] + '"');
+                        envoyerConversion('Détection DOM');
+                        observer.disconnect();
+                        return;
                     }
                 }
             }
         });
         
-        console.log('👀 Surveillance PostMessage Microsoft Forms activée');
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            characterData: true
+        });
+        
+        // MÉTHODE 3 : Polling du bouton "Envoyer" (détecte le clic)
+        var iframe = document.querySelector('iframe[src*="forms.office.com"]');
+        if (iframe) {
+            console.log('✅ Iframe Microsoft Forms détectée');
+            
+            // Vérifier toutes les secondes si le formulaire a été soumis
+            var intervalPolling = setInterval(function() {
+                detectionTentatives++;
+                
+                // Vérifier si le message de succès est visible
+                var carteFormulaire = document.querySelector('.fg-hero__card');
+                if (carteFormulaire) {
+                    var texte = carteFormulaire.innerText.toLowerCase();
+                    if (texte.includes('reçue avec succès') || texte.includes('merci')) {
+                        var timeSinceLoad = Date.now() - pageLoadTime;
+                        if (timeSinceLoad > 3000 && !conversionEnvoyee) {
+                            console.log('🔄 Polling : Message de succès détecté');
+                            envoyerConversion('Polling DOM');
+                            clearInterval(intervalPolling);
+                        }
+                    }
+                }
+                
+                // Arrêter après 60 tentatives (60 secondes)
+                if (detectionTentatives >= maxTentatives || conversionEnvoyee) {
+                    clearInterval(intervalPolling);
+                }
+            }, 1000);
+        }
+        
+        console.log('👀 3 méthodes de détection activées :');
+        console.log('   1️⃣ PostMessage');
+        console.log('   2️⃣ MutationObserver (DOM)');
+        console.log('   3️⃣ Polling (vérification toutes les secondes)');
     });
     </script>
 
