@@ -269,21 +269,21 @@
     <script src="js/main.js"></script>
     <script src="js/landing.js"></script>
 
-    <!-- Tracking Conversion MS Forms - Méthode Hybride -->
+    <!-- Tracking Conversion MS Forms - Détection Message Succès -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🔍 Tracking Google Ads HYBRIDE initialisé');
+        console.log('🔍 Tracking Google Ads - Détection message succès initialisé');
         
         var CONVERSION_ID = 'AW-16583907507/aRcACInstO4bELOx6eM9';
         var conversionEnvoyee = false;
         var pageLoadTime = Date.now();
-        var detectionTentatives = 0;
-        var maxTentatives = 60; // 60 secondes max
+        var tentatives = 0;
+        var maxTentatives = 120; // 2 minutes max
         
-        function envoyerConversion(methode) {
+        function envoyerConversion() {
             if (conversionEnvoyee) return;
             
-            console.log('✅ SOUMISSION DÉTECTÉE via ' + methode + ' !');
+            console.log('✅ SOUMISSION DÉTECTÉE : Message de succès trouvé !');
             
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'conversion', {
@@ -295,7 +295,7 @@
                 
                 gtag('event', 'generate_lead', {
                     'event_category': 'Formulaire',
-                    'event_label': 'Lead Immobilier Neuf Excellence - ' + methode,
+                    'event_label': 'Lead Immobilier Neuf Excellence',
                     'value': 1
                 });
                 
@@ -306,80 +306,51 @@
             }
         }
         
-        // MÉTHODE 1 : PostMessage
-        window.addEventListener('message', function(event) {
-            if (event.origin && event.origin.includes('forms.office.com')) {
-                console.log('📩 Message reçu de Microsoft Forms:', event.data);
-                var timeSinceLoad = Date.now() - pageLoadTime;
-                if (timeSinceLoad > 3000 && !conversionEnvoyee) {
-                    envoyerConversion('PostMessage');
+        // Vérifier toutes les 1 seconde si le message de succès apparaît
+        var intervalDetection = setInterval(function() {
+            tentatives++;
+            
+            // Chercher le message dans toute la page
+            var texteComplet = document.body.innerText || document.body.textContent;
+            
+            // Liste des messages de succès possibles
+            var messagesSucces = [
+                'votre demande a été reçue avec succès',
+                'reçue avec succès',
+                'merci de l\'intérêt',
+                'votre réponse a été enregistrée',
+                'thank you for your response'
+            ];
+            
+            var messageDetecte = false;
+            for (var i = 0; i < messagesSucces.length; i++) {
+                if (texteComplet.toLowerCase().indexOf(messagesSucces[i]) !== -1) {
+                    messageDetecte = true;
+                    console.log('📝 Message de confirmation trouvé : "' + messagesSucces[i] + '"');
+                    break;
                 }
             }
-        });
-        
-        // MÉTHODE 2 : Détection du message de succès visible dans la page
-        var observer = new MutationObserver(function(mutations) {
-            if (conversionEnvoyee) {
-                observer.disconnect();
-                return;
+            
+            // Si message détecté ET au moins 3 secondes après le chargement
+            var timeSinceLoad = Date.now() - pageLoadTime;
+            if (messageDetecte && timeSinceLoad > 3000 && !conversionEnvoyee) {
+                envoyerConversion();
+                clearInterval(intervalDetection);
             }
             
-            var texteVisible = document.body.innerText.toLowerCase();
-            var motsCles = ['reçue avec succès', 'merci', 'votre demande', 'été enregistrée'];
-            
-            for (var i = 0; i < motsCles.length; i++) {
-                if (texteVisible.includes(motsCles[i])) {
-                    var timeSinceLoad = Date.now() - pageLoadTime;
-                    if (timeSinceLoad > 3000) {
-                        console.log('📝 Message de confirmation trouvé : "' + motsCles[i] + '"');
-                        envoyerConversion('Détection DOM');
-                        observer.disconnect();
-                        return;
-                    }
-                }
+            // Arrêter après 2 minutes (120 secondes)
+            if (tentatives >= maxTentatives) {
+                console.log('⏱️ Timeout : Arrêt de la surveillance après 2 minutes');
+                clearInterval(intervalDetection);
             }
-        });
-        
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            characterData: true
-        });
-        
-        // MÉTHODE 3 : Polling du bouton "Envoyer" (détecte le clic)
-        var iframe = document.querySelector('iframe[src*="forms.office.com"]');
-        if (iframe) {
-            console.log('✅ Iframe Microsoft Forms détectée');
             
-            // Vérifier toutes les secondes si le formulaire a été soumis
-            var intervalPolling = setInterval(function() {
-                detectionTentatives++;
-                
-                // Vérifier si le message de succès est visible
-                var carteFormulaire = document.querySelector('.fg-hero__card');
-                if (carteFormulaire) {
-                    var texte = carteFormulaire.innerText.toLowerCase();
-                    if (texte.includes('reçue avec succès') || texte.includes('merci')) {
-                        var timeSinceLoad = Date.now() - pageLoadTime;
-                        if (timeSinceLoad > 3000 && !conversionEnvoyee) {
-                            console.log('🔄 Polling : Message de succès détecté');
-                            envoyerConversion('Polling DOM');
-                            clearInterval(intervalPolling);
-                        }
-                    }
-                }
-                
-                // Arrêter après 60 tentatives (60 secondes)
-                if (detectionTentatives >= maxTentatives || conversionEnvoyee) {
-                    clearInterval(intervalPolling);
-                }
-            }, 1000);
-        }
+            // Log de progression toutes les 10 secondes
+            if (tentatives % 10 === 0) {
+                console.log('🔄 Surveillance active... (' + tentatives + 's)');
+            }
+        }, 1000); // Vérifier toutes les 1 seconde
         
-        console.log('👀 3 méthodes de détection activées :');
-        console.log('   1️⃣ PostMessage');
-        console.log('   2️⃣ MutationObserver (DOM)');
-        console.log('   3️⃣ Polling (vérification toutes les secondes)');
+        console.log('👀 Surveillance du message de succès activée (vérification toutes les secondes)');
     });
     </script>
 
