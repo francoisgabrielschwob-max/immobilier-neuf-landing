@@ -115,6 +115,7 @@
                     <!-- Formulaire Microsoft Forms -->
                     <div style="width: 100%; max-width: 100%;">
                         <iframe 
+                            id="msforms-iframe"
                             src="https://forms.office.com/Pages/ResponsePage.aspx?id=LGTilXow2Em0gRtwpmt_WCzkzs9nK6hMhdh3jFYqgf5UNjI0N0FBMDNMMUlIVk5JNkc2RExWVTJKUy4u" 
                             width="100%" 
                             height="700" 
@@ -277,99 +278,122 @@
         var CONVERSION_ID = 'AW-16583907507/aRcACInstO4bELOx6eM9';
         
         var conversionEnvoyee = false;
-        var tentativesDetection = 0;
-        var maxTentatives = 300; // 5 minutes max
+        var iframe = document.getElementById('msforms-iframe');
+        var hauteurInitiale = null;
+        var compteurVerifications = 0;
+        var maxVerifications = 180; // 3 minutes max (180 x 1 seconde)
         
-        function detecterConfirmation() {
-            tentativesDetection++;
+        console.log('👀 Surveillance iframe Microsoft Forms active');
+        
+        // Fonction pour envoyer la conversion
+        function envoyerConversion(raison) {
+            if (conversionEnvoyee) return;
             
-            if (tentativesDetection > maxTentatives || conversionEnvoyee) {
+            console.log('✅ Soumission formulaire détectée !');
+            console.log('📝 Raison : ' + raison);
+            
+            if (typeof gtag !== 'undefined') {
+                // Envoyer la conversion à Google Ads
+                gtag('event', 'conversion', {
+                    'send_to': CONVERSION_ID,
+                    'event_callback': function() {
+                        console.log('✅ Conversion confirmée par Google Ads');
+                    }
+                });
+                
+                // Événement lead pour Analytics
+                gtag('event', 'generate_lead', {
+                    'event_category': 'Formulaire',
+                    'event_label': 'Lead Immobilier Neuf Excellence',
+                    'value': 1
+                });
+                
+                console.log('🎯 Conversion Google Ads envoyée avec succès !');
+                conversionEnvoyee = true;
+                
+            } else {
+                console.error('❌ gtag non disponible - Vérifier le Global Site Tag');
+            }
+        }
+        
+        // Méthode 1 : Surveiller les changements de hauteur de l'iframe
+        function surveillerHauteur() {
+            compteurVerifications++;
+            
+            if (conversionEnvoyee || compteurVerifications > maxVerifications) {
                 return;
             }
             
-            var elements = document.querySelectorAll('*');
-            
-            for (var i = 0; i < elements.length; i++) {
-                var element = elements[i];
-                
-                // Ignorer les éléments cachés
-                if (!element.offsetParent && element !== document.body) continue;
-                
-                var texte = (element.textContent || element.innerText || '').toLowerCase().trim();
-                
-                // Mots-clés de détection Microsoft Forms
-                var motsConfirmation = [
-                    'merci',
-                    'votre réponse a été enregistrée',
-                    'nous avons bien reçu',
-                    'réponse a été envoyée',
-                    'reçu',
-                    'enregistré',
-                    'envoyé',
-                    'soumis',
-                    'thank you',
-                    'your response has been recorded'
-                ];
-                
-                var confirmationDetectee = motsConfirmation.some(function(mot) {
-                    return texte.includes(mot) && texte.length > 3 && texte.length < 200;
-                });
-                
-                if (confirmationDetectee) {
-                    console.log('✅ Message de confirmation Microsoft Forms détecté !');
-                    console.log('📝 Texte trouvé :', texte.substring(0, 100) + '...');
+            if (iframe && iframe.contentWindow) {
+                try {
+                    var hauteurActuelle = iframe.clientHeight;
                     
-                    if (typeof gtag !== 'undefined') {
-                        // Envoyer la conversion à Google Ads
-                        gtag('event', 'conversion', {
-                            'send_to': CONVERSION_ID,
-                            'event_callback': function() {
-                                console.log('✅ Conversion confirmée par Google Ads');
-                            }
-                        });
-                        
-                        // Événement lead pour Analytics
-                        gtag('event', 'generate_lead', {
-                            'event_category': 'Formulaire',
-                            'event_label': 'Lead Immobilier Neuf Excellence',
-                            'value': 1
-                        });
-                        
-                        console.log('🎯 Conversion Google Ads envoyée avec succès !');
-                        conversionEnvoyee = true;
-                        
-                    } else {
-                        console.error('❌ gtag non disponible - Vérifier le Global Site Tag');
+                    if (hauteurInitiale === null) {
+                        hauteurInitiale = hauteurActuelle;
+                    } else if (Math.abs(hauteurActuelle - hauteurInitiale) > 50) {
+                        // Changement significatif de hauteur détecté
+                        envoyerConversion('Changement de hauteur iframe détecté');
+                        return;
                     }
-                    
-                    return;
+                } catch(e) {
+                    // Iframe cross-origin, on ne peut pas accéder
                 }
             }
             
-            // Relancer la détection après 1 seconde
-            setTimeout(detecterConfirmation, 1000);
+            // Continuer la surveillance
+            setTimeout(surveillerHauteur, 1000);
         }
         
-        // Observer les changements DOM pour détecter l'affichage du message
+        // Méthode 2 : Surveiller les messages postMessage de l'iframe
+        window.addEventListener('message', function(event) {
+            if (conversionEnvoyee) return;
+            
+            // Microsoft Forms envoie parfois des messages
+            if (event.origin.includes('forms.office.com')) {
+                console.log('📨 Message reçu de Microsoft Forms');
+                
+                // Déclencher la conversion après 2 secondes (pour laisser le temps au message de s'afficher)
+                setTimeout(function() {
+                    if (!conversionEnvoyee) {
+                        envoyerConversion('Message postMessage de Microsoft Forms');
+                    }
+                }, 2000);
+            }
+        });
+        
+        // Méthode 3 : Surveiller le DOM de la page principale (au cas où le message sortirait de l'iframe)
         var observer = new MutationObserver(function(mutations) {
             if (conversionEnvoyee) {
                 observer.disconnect();
                 return;
             }
-            setTimeout(detecterConfirmation, 500);
+            
+            // Vérifier si un message de confirmation apparaît dans la page
+            var elementsConfirmation = document.querySelectorAll('[class*="confirm"], [class*="success"], [class*="thank"]');
+            if (elementsConfirmation.length > 0) {
+                elementsConfirmation.forEach(function(el) {
+                    var texte = (el.textContent || '').toLowerCase();
+                    if (texte.includes('merci') || texte.includes('reçu') || texte.includes('enregistré')) {
+                        envoyerConversion('Message de confirmation dans la page principale');
+                    }
+                });
+            }
         });
         
-        // Démarrer l'observation
         observer.observe(document.body, {
             childList: true,
-            subtree: true,
-            characterData: true
+            subtree: true
         });
         
-        // Première tentative immédiate
-        detecterConfirmation();
+        // Démarrer la surveillance de hauteur après 2 secondes (laisser le temps à l'iframe de charger)
+        setTimeout(function() {
+            surveillerHauteur();
+        }, 2000);
         
-        console.log('👀 Surveillance Microsoft Forms active - Prêt à détecter');
+        console.log('✅ 3 méthodes de détection activées :');
+        console.log('   1️⃣ Surveillance hauteur iframe');
+        console.log('   2️⃣ Écoute messages postMessage');
+        console.log('   3️⃣ Observation DOM page principale');
     });
     </script>
 
