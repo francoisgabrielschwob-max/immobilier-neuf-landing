@@ -8,8 +8,9 @@ Palette BRS fusionnée • SEO 2026 optimisé
 
 ## 📊 ÉTAT DU PROJET
 
-**Dernière mise à jour** : 27 janvier 2026  
-**Statut** : ✅ Site en ligne à https://excellence.fg-strategies.fr
+**Dernière mise à jour** : 28 janvier 2026  
+**Statut** : ✅ Site en ligne + Tracking Google Ads installé  
+**URL** : https://excellence.fg-strategies.fr
 
 ---
 
@@ -100,27 +101,37 @@ Palette BRS fusionnée • SEO 2026 optimisé
 - **Repository** : https://github.com/francoisgabrielschwob-max/immobilier-neuf-landing
 - **Branch** : main
 - **Statut** : ✅ Déployé et fonctionnel
-- **HTTPS** : ⏳ En cours d'activation (certificat SSL Let's Encrypt en génération)
+- **HTTPS** : ✅ Activé (certificat SSL Let's Encrypt)
 - **DNS** : ✅ Configuré et propagé (OVH CNAME)
+- **Tracking Google Ads** : ✅ Installé (en attente des IDs réels)
 
-### **Déploiement réalisé (27 janvier 2026) :**
+### **Déploiement réalisé (27-28 janvier 2026) :**
 1. ✅ Site complet uploadé (11 pages HTML + CSS + JS + images)
 2. ✅ GitHub Pages activé
 3. ✅ Domaine personnalisé configuré : `excellence.fg-strategies.fr`
 4. ✅ DNS OVH configuré (CNAME → francoisgabrielschwob-max.github.io)
-5. ⏳ HTTPS en cours d'activation (10-30 minutes)
+5. ✅ HTTPS activé (certificat Let's Encrypt)
+6. ✅ Tracking Google Ads installé (28 janvier 2026)
 
 ---
 
-## 📧 INTÉGRATION FORMULAIRES
+## 📧 INTÉGRATION FORMULAIRES & TRACKING
 
 ### **Microsoft Forms intégré (URL iframe) :**
 - **URL du formulaire** : https://forms.office.com/Pages/ResponsePage.aspx?id=LGTilXow2Em0gRtwpmt_WCzkzs9nK6hMhdh3jFYqgf5UNjI0N0FBMDNMMUlIVk5JNkc2RExWVTJKUy4u
 - **Intégré dans** : 
   - ✅ `index.html` (page d'accueil) → Section contact
   - ✅ `landing-neuf-excellence.html` (landing Google Ads) → Formulaire principal
-- **Flux de données** : Forms → Excel (OneDrive) → Power Automate → Notification Outlook
+- **Flux de données** : Forms → Excel (OneDrive) → Power Automate → Notification Outlook (contact@fg-strategies.com)
 - **Configuration** : "Tout le monde peut répondre" activé
+
+### **Tracking Google Ads (installé 28/01/2026) :**
+- **Fichier modifié** : `landing-neuf-excellence.html`
+- **Global Site Tag** : ✅ Installé dans `<head>`
+- **Script de conversion** : ✅ Installé avant `</body>`
+- **Détection** : Automatique via MutationObserver (message de confirmation Microsoft Forms)
+- **Statut** : ⚠️ En attente des IDs réels Google Ads (placeholders `AW-XXXXXXXXXX`)
+- **Documentation** : Voir `TRACKING-GOOGLE-ADS-INSTRUCTIONS.md`
 
 ### **Calendrier Outlook :**
 - **URL de réservation** : https://outlook.office.com/book/FGSTRATEGIESACH@fg-strategies.com/

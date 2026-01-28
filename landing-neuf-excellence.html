@@ -28,6 +28,15 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/landing.css">
+    
+    <!-- Google Ads Global Site Tag -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-XXXXXXXXXX');
+    </script>
 </head>
 <body>
 
@@ -258,6 +267,111 @@
     <!-- JavaScript -->
     <script src="js/main.js"></script>
     <script src="js/landing.js"></script>
+
+    <!-- Tracking Conversion Microsoft Forms -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔍 Tracking Google Ads initialisé - Surveillance active');
+        
+        // ⚠️ ID de conversion à remplacer par celui fourni par le client
+        var CONVERSION_ID = 'AW-XXXXXXXXXX/AbCdEfGhIj1KlMnOpQr';
+        
+        var conversionEnvoyee = false;
+        var tentativesDetection = 0;
+        var maxTentatives = 300; // 5 minutes max
+        
+        function detecterConfirmation() {
+            tentativesDetection++;
+            
+            if (tentativesDetection > maxTentatives || conversionEnvoyee) {
+                return;
+            }
+            
+            var elements = document.querySelectorAll('*');
+            
+            for (var i = 0; i < elements.length; i++) {
+                var element = elements[i];
+                
+                // Ignorer les éléments cachés
+                if (!element.offsetParent && element !== document.body) continue;
+                
+                var texte = (element.textContent || element.innerText || '').toLowerCase().trim();
+                
+                // Mots-clés de détection Microsoft Forms
+                var motsConfirmation = [
+                    'merci',
+                    'votre réponse a été enregistrée',
+                    'nous avons bien reçu',
+                    'réponse a été envoyée',
+                    'reçu',
+                    'enregistré',
+                    'envoyé',
+                    'soumis',
+                    'thank you',
+                    'your response has been recorded'
+                ];
+                
+                var confirmationDetectee = motsConfirmation.some(function(mot) {
+                    return texte.includes(mot) && texte.length > 3 && texte.length < 200;
+                });
+                
+                if (confirmationDetectee) {
+                    console.log('✅ Message de confirmation Microsoft Forms détecté !');
+                    console.log('📝 Texte trouvé :', texte.substring(0, 100) + '...');
+                    
+                    if (typeof gtag !== 'undefined') {
+                        // Envoyer la conversion à Google Ads
+                        gtag('event', 'conversion', {
+                            'send_to': CONVERSION_ID,
+                            'event_callback': function() {
+                                console.log('✅ Conversion confirmée par Google Ads');
+                            }
+                        });
+                        
+                        // Événement lead pour Analytics
+                        gtag('event', 'generate_lead', {
+                            'event_category': 'Formulaire',
+                            'event_label': 'Lead Immobilier Neuf Excellence',
+                            'value': 1
+                        });
+                        
+                        console.log('🎯 Conversion Google Ads envoyée avec succès !');
+                        conversionEnvoyee = true;
+                        
+                    } else {
+                        console.error('❌ gtag non disponible - Vérifier le Global Site Tag');
+                    }
+                    
+                    return;
+                }
+            }
+            
+            // Relancer la détection après 1 seconde
+            setTimeout(detecterConfirmation, 1000);
+        }
+        
+        // Observer les changements DOM pour détecter l'affichage du message
+        var observer = new MutationObserver(function(mutations) {
+            if (conversionEnvoyee) {
+                observer.disconnect();
+                return;
+            }
+            setTimeout(detecterConfirmation, 500);
+        });
+        
+        // Démarrer l'observation
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            characterData: true
+        });
+        
+        // Première tentative immédiate
+        detecterConfirmation();
+        
+        console.log('👀 Surveillance Microsoft Forms active - Prêt à détecter');
+    });
+    </script>
 
 </body>
 </html>
