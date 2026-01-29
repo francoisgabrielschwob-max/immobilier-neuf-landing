@@ -33,6 +33,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Log pour debug (à retirer en production)
     console.log('UTM Parameters captured:', utmParams);
+    
+    // ✅ ATTACHER L'ÉVÉNEMENT AU FORMULAIRE
+    const premiumForm = document.getElementById('premiumLeadForm');
+    if (premiumForm) {
+        premiumForm.addEventListener('submit', submitPremiumLead);
+        console.log('✅ Formulaire premium initialisé');
+    }
 });
 
 // ============================================
