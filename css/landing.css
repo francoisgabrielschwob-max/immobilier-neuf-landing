@@ -595,6 +595,174 @@
     margin: 0.5rem 0;
 }
 
+/* ============================================
+   FORMULAIRE PREMIUM PERSONNALISÉ
+   ============================================ */
+
+.premium-form {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F8F6F3 100%);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    font-family: var(--font-sous-titre);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2C3E50;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.3px;
+}
+
+.premium-input {
+    width: 100%;
+    border: 1.5px solid #E5E0DB;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 16px;
+    font-family: var(--font-corps);
+    color: #2C3E50;
+    background: #FFFFFF;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.premium-input:focus {
+    outline: none;
+    border-color: #c5a47e;
+    box-shadow: 0 0 0 3px rgba(197, 164, 126, 0.12);
+    background: #FFFFFF;
+}
+
+.premium-input::placeholder {
+    color: #A0A0A0;
+    opacity: 1;
+}
+
+.premium-textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: var(--font-corps);
+    line-height: 1.6;
+}
+
+.premium-button {
+    width: 100%;
+    background: linear-gradient(135deg, #c5a47e 0%, #a08660 100%);
+    color: #FFFFFF;
+    border: none;
+    padding: 18px 40px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: var(--font-sous-titre);
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(197, 164, 126, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(197, 164, 126, 0.4);
+}
+
+.premium-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.premium-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.premium-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.premium-button:hover:not(:disabled)::before {
+    left: 100%;
+}
+
+/* Messages de succès et d'erreur */
+.success-message,
+.error-message {
+    background: #FFFFFF;
+    padding: 2.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.success-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.error-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.success-title,
+.error-title {
+    font-family: var(--font-titre);
+    font-size: 1.8rem;
+    color: #2C3E50;
+    margin-bottom: 1rem;
+}
+
+.success-text,
+.error-text {
+    font-family: var(--font-corps);
+    font-size: 1.05rem;
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.success-cta {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #E5E0DB;
+}
+
+.success-link,
+.error-link {
+    color: #c5a47e;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.success-link:hover,
+.error-link:hover {
+    color: #a08660;
+    text-decoration: underline;
+}
+
 /* RESPONSIVE */
 @media (max-width: 968px) {
     .fg-hero__grid {
@@ -623,6 +791,16 @@
     .fg-footer__content {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
+    }
+
+    /* Formulaire responsive tablette */
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .premium-form {
+        padding: 1.5rem;
     }
 }
 
@@ -663,5 +841,30 @@
 
     .fg-testimonial__text {
         font-size: 1rem;
+    }
+
+    /* Formulaire responsive mobile */
+    .premium-form {
+        padding: 1.25rem;
+    }
+
+    .premium-input {
+        padding: 12px 16px;
+        font-size: 16px; /* Important pour iOS - évite le zoom */
+    }
+
+    .premium-button {
+        padding: 16px 32px;
+        font-size: 16px;
+    }
+
+    .success-message,
+    .error-message {
+        padding: 2rem 1.5rem;
+    }
+
+    .success-title,
+    .error-title {
+        font-size: 1.5rem;
     }
 }
