@@ -18,12 +18,18 @@ function getUTMParameters() {
 document.addEventListener('DOMContentLoaded', function() {
     const utmParams = getUTMParameters();
     
-    // Remplir les champs cachés
-    document.getElementById('utm_source').value = utmParams.utm_source;
-    document.getElementById('utm_campaign').value = utmParams.utm_campaign;
-    document.getElementById('utm_adgroup').value = utmParams.utm_adgroup;
-    document.getElementById('utm_term').value = utmParams.utm_term;
-    document.getElementById('utm_content').value = utmParams.utm_content;
+    // Remplir les champs cachés SEULEMENT s'ils existent
+    const utmSourceField = document.getElementById('utm_source');
+    const utmCampaignField = document.getElementById('utm_campaign');
+    const utmAdgroupField = document.getElementById('utm_adgroup');
+    const utmTermField = document.getElementById('utm_term');
+    const utmContentField = document.getElementById('utm_content');
+    
+    if (utmSourceField) utmSourceField.value = utmParams.utm_source;
+    if (utmCampaignField) utmCampaignField.value = utmParams.utm_campaign;
+    if (utmAdgroupField) utmAdgroupField.value = utmParams.utm_adgroup;
+    if (utmTermField) utmTermField.value = utmParams.utm_term;
+    if (utmContentField) utmContentField.value = utmParams.utm_content;
     
     // Log pour debug (à retirer en production)
     console.log('UTM Parameters captured:', utmParams);
