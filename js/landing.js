@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ⚠️ CONFIGURATION IMPORTANTE : URL du webhook Power Automate
 // Remplacez cette URL par celle fournie par Power Automate (HTTP Request)
-const POWER_AUTOMATE_WEBHOOK_URL = 'https://default95e2642c307a49d8b4811b70a66b7f.58.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/b64782df66bc4d71a2c9a2bf2eb8f605/triggers/manual/paths/invoke?api-version=1';
+const POWER_AUTOMATE_WEBHOOK_URL = 'https://default95e2642c307a49d8b4811b70a66b7f.58.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/b64782df66bc4d71a2c9a2bf2eb8f605/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=prePfbTchw2sYyJwEJKyMz2ML8ZChKa98wY5EhBCzEs';
 
 /**
  * Soumettre le formulaire premium
