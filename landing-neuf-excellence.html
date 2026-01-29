@@ -112,23 +112,112 @@
                         </p>
                     </div>
 
-                    <!-- Formulaire Microsoft Forms -->
-                    <div style="width: 100%; max-width: 100%;">
-                        <iframe 
-                            id="msforms-iframe"
-                            src="https://forms.office.com/Pages/ResponsePage.aspx?id=LGTilXow2Em0gRtwpmt_WCzkzs9nK6hMhdh3jFYqgf5UNjI0N0FBMDNMMUlIVk5JNkc2RExWVTJKUy4u" 
-                            width="100%" 
-                            height="700" 
-                            frameborder="0" 
-                            marginheight="0" 
-                            marginwidth="0"
-                            style="border: none; border-radius: 8px;">
-                            Chargement du formulaire…
-                        </iframe>
-                        <p class="fg-form__microcopy" style="margin-top: 1rem; text-align: center;">
-                            Réponse sous 24h • Sollicitation maîtrisée<br> • Confidentialité garantie
+                    <!-- Formulaire Premium Personnalisé -->
+                    <form id="premiumLeadForm" class="premium-form" onsubmit="submitPremiumLead(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prenom">Prénom *</label>
+                                <input 
+                                    type="text" 
+                                    id="prenom" 
+                                    name="prenom" 
+                                    class="premium-input" 
+                                    placeholder="Votre prénom"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nom">Nom *</label>
+                                <input 
+                                    type="text" 
+                                    id="nom" 
+                                    name="nom" 
+                                    class="premium-input" 
+                                    placeholder="Votre nom"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="premium-input" 
+                                placeholder="votre.email@exemple.com"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Téléphone *</label>
+                            <input 
+                                type="tel" 
+                                id="telephone" 
+                                name="telephone" 
+                                class="premium-input" 
+                                placeholder="06 12 34 56 78"
+                                pattern="[0-9\s\.\-\(\)]+"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="projet">Votre projet</label>
+                            <textarea 
+                                id="projet" 
+                                name="projet" 
+                                class="premium-input premium-textarea" 
+                                placeholder="Décrivez-nous votre projet d'acquisition immobilière..."
+                                rows="4"></textarea>
+                        </div>
+
+                        <button type="submit" class="premium-button" id="submitBtn">
+                            <span class="btn-text">Envoyer ma demande</span>
+                            <span class="btn-loader" style="display: none;">⏳ Envoi en cours...</span>
+                        </button>
+
+                        <p class="fg-form__microcopy" style="margin-top: 1.5rem; text-align: center; font-size: 0.875rem; color: #666;">
+                            Réponse sous 24h • Sollicitation maîtrisée • Confidentialité garantie
+                        </p>
+                    </form>
+
+                    <!-- Message de succès -->
+                    <div id="successMessage" class="success-message" style="display: none;">
+                        <div class="success-icon">✅</div>
+                        <h3 class="success-title">Votre demande a été reçue avec succès !</h3>
+                        <p class="success-text">
+                            Merci de l'intérêt que vous portez à notre sélection d'immobilier neuf d'excellence en Occitanie.
+                        </p>
+                        <p class="success-text">
+                            <strong>Prochaines étapes :</strong><br>
+                            • Un expert vous contactera sous 24h<br>
+                            • Consultation personnalisée<br>
+                            • Découverte de programmes adaptés
+                        </p>
+                        <p class="success-cta">
+                            <strong>Besoin d'un RDV plus rapidement ?</strong><br>
+                            <a href="https://outlook.office.com/book/FGSTRATEGIESACH@fg-strategies.com/" target="_blank" class="success-link">
+                                Réservez votre créneau directement
+                            </a>
                         </p>
                     </div>
+
+                    <!-- Message d'erreur -->
+                    <div id="errorMessage" class="error-message" style="display: none;">
+                        <div class="error-icon">❌</div>
+                        <h3 class="error-title">Une erreur est survenue</h3>
+                        <p class="error-text">
+                            Nous n'avons pas pu envoyer votre demande. Veuillez réessayer dans quelques instants.
+                        </p>
+                        <p class="error-text">
+                            <strong>Besoin d'aide ?</strong><br>
+                            Contactez-nous directement :<br>
+                            <a href="mailto:contact@fg-strategies.com" class="error-link">contact@fg-strategies.com</a>
+                        </p>
+                        <button onclick="resetForm()" class="premium-button" style="margin-top: 1rem;">
+                            Réessayer
+                        </button>
+                    </div>
+
                 </div>
 
             </div>
