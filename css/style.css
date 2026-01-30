@@ -1671,10 +1671,10 @@ section {
 
 .hero-stats-persona {
     display: flex;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: var(--spacing-lg);
+    margin-top: var(--spacing-md);
     animation: fadeInUp 1.6s ease 0.8s backwards;
 }
 
