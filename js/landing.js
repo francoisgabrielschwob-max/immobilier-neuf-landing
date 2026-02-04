@@ -77,7 +77,7 @@ async function submitPremiumLead(event) {
         nom: formData.get('nom'),
         email: formData.get('email'),
         telephone: formData.get('telephone'),
-        projet: formData.get('projet') || 'Non renseigné',
+        zone: formData.get('zone') || 'Non renseigné',
         source: 'Landing Neuf Excellence',
         date: new Date().toISOString(),
         url: window.location.href
