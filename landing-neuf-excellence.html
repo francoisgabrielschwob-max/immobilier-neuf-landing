@@ -46,6 +46,56 @@
       gtag('js', new Date());
       gtag('config', 'G-7VFY5NK99C');
     </script>
+
+    <!-- Animations Hero Section -->
+    <style>
+        /* Animation fadeInUp pour apparition progressive */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation pulse pour le bouton CTA principal */
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
+                transform: scale(1.02);
+            }
+        }
+
+        /* Amélioration du hover sur boutons */
+        .fg-btn--primary:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4) !important;
+        }
+
+        .fg-btn--ghost:hover {
+            transform: translateY(-2px) !important;
+            background: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        /* Responsive : ajustements mobile pour badge et urgence */
+        @media (max-width: 768px) {
+            .trust-badge {
+                font-size: 12px !important;
+                padding: 8px 16px !important;
+            }
+            
+            .cta-urgency {
+                font-size: 12px !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -80,23 +130,35 @@
                         Programmes Neufs d'Exception<br>Littoral Méditerranéen
                     </h1>
 
+                    <!-- Badge de confiance -->
+                    <div class="trust-badge" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 175, 55, 0.15); color: #D4AF37; padding: 10px 24px; border-radius: 50px; font-size: 14px; font-weight: 600; margin: 15px 0; border: 1px solid rgba(212, 175, 55, 0.3); animation: fadeInUp 0.8s ease 0.3s backwards;">
+                        <span style="font-size: 18px;">🏆</span>
+                        <span>Expert certifié immobilier neuf</span>
+                    </div>
+
                     <p class="fg-hero__subtitle-seo" style="font-size: 24px; font-weight: 600; margin: 1.5rem 0;">
-                        Sélection privée >600K€ | Expert indépendant | 0€ d'honoraires
+                        Sélection privée >600K€ | Expert indépendant | Prix direct promoteur
                     </p>
 
                     <div class="fg-hero__ctaRow">
-                        <a class="fg-btn fg-btn--primary" href="#demande">
+                        <a class="fg-btn fg-btn--primary" href="#demande" style="animation: pulse 2.5s ease-in-out infinite;">
                             Accéder à la Sélection Privée
                         </a>
                         <a class="fg-btn fg-btn--ghost" href="https://outlook.office.com/book/FGSTRATEGIESACH@fg-strategies.com/" target="_blank">
-                            Échanger avec nous
+                            Prendre rendez-vous (15 min)
                         </a>
                     </div>
 
-                    <div class="fg-hero__trust" style="margin-top: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
-                        <span><i class="fas fa-check"></i> 15 ans d'expertise</span>
-                        <span><i class="fas fa-check"></i> Réponse <24h</span>
-                        <span><i class="fas fa-check"></i> 100% indépendant</span>
+                    <!-- Message d'encouragement -->
+                    <p class="cta-encouragement" style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: #D4AF37; margin-top: 15px; font-weight: 500; line-height: 1.5; max-width: 500px; animation: fadeInUp 0.8s ease 0.6s backwards;">
+                        <span style="font-size: 18px; flex-shrink: 0;">✨</span>
+                        <span>Vous êtes à un rendez-vous d'une vraie avancée dans votre projet !</span>
+                    </p>
+
+                    <div class="fg-hero__trust" style="margin-top: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
+                        <span style="animation: fadeInUp 0.6s ease 0.4s backwards;"><i class="fas fa-check" style="color: #D4AF37; margin-right: 8px;"></i> 15 ans d'expertise</span>
+                        <span style="animation: fadeInUp 0.6s ease 0.5s backwards;"><i class="fas fa-check" style="color: #D4AF37; margin-right: 8px;"></i> Réponse <24h</span>
+                        <span style="animation: fadeInUp 0.6s ease 0.6s backwards;"><i class="fas fa-check" style="color: #D4AF37; margin-right: 8px;"></i> 100% indépendant</span>
                     </div>
                 </div>
 
